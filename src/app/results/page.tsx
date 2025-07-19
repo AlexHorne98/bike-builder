@@ -13,9 +13,33 @@ const FRAMES = [
   { name: "Lightweight Alloy Frame", image: "/bike.png", price: 1200, weight: 1200 },
 ];
 const WHEELS = [
-  { name: "Lightweight Alloy Wheels", image: "/bike.png", price: 800, weight: 1500 },
-  { name: "Aero Carbon Wheels", image: "/bike.png", price: 1800, weight: 1350 },
-  { name: "Endurance Wheels", image: "/bike.png", price: 1000, weight: 1600 },
+  {
+    name: "Lightweight Alloy Wheels",
+    image: "/bike.png",
+    price: 800,
+    weight: 1500,
+    rim: "Alloy Clincher",
+    tyreWidth: 28,
+    recommendedPressure: (riderWeight: number) => Math.round(90 + (riderWeight - 70) * 0.7),
+  },
+  {
+    name: "Aero Carbon Wheels",
+    image: "/bike.png",
+    price: 1800,
+    weight: 1350,
+    rim: "Deep Carbon Tubeless",
+    tyreWidth: 25,
+    recommendedPressure: (riderWeight: number) => Math.round(100 + (riderWeight - 70) * 0.8),
+  },
+  {
+    name: "Endurance Wheels",
+    image: "/bike.png",
+    price: 1000,
+    weight: 1600,
+    rim: "Wide Alloy Clincher",
+    tyreWidth: 32,
+    recommendedPressure: (riderWeight: number) => Math.round(80 + (riderWeight - 70) * 0.6),
+  },
 ];
 const HANDLEBARS = [
   { name: "Compact Drop Bars", image: "/bike.png", price: 300, weight: 250 },
@@ -37,6 +61,11 @@ export default function ResultsPage() {
 
   const totalPrice = selectedFrame.price + selectedWheels.price + selectedHandlebars.price;
   const totalWeight = selectedFrame.weight + selectedWheels.weight + selectedHandlebars.weight;
+
+  const riderWeightNum = Number(riderWeight) || 75;
+  const wheelPressure = selectedWheels.recommendedPressure
+    ? selectedWheels.recommendedPressure(riderWeightNum)
+    : null;
 
   return (
     <>
@@ -66,6 +95,11 @@ export default function ResultsPage() {
                 <option key={wheel.name} value={wheel.name}>{wheel.name} (${wheel.price})</option>
               ))}
             </select>
+            <div style={{ fontSize: 14, color: '#555', marginTop: 4 }}>
+              <div><strong>Rim:</strong> {selectedWheels.rim}</div>
+              <div><strong>Tyre Width:</strong> {selectedWheels.tyreWidth} mm</div>
+              <div><strong>Recommended Pressure:</strong> {wheelPressure ? `${wheelPressure} psi` : 'N/A'}</div>
+            </div>
           </div>
           <div style={{ marginBottom: 18 }}>
             <label style={{ fontWeight: 500 }}>Handlebars:</label>
