@@ -95,11 +95,6 @@ export default function ResultsPage() {
                 <option key={wheel.name} value={wheel.name}>{wheel.name} (${wheel.price})</option>
               ))}
             </select>
-            <div style={{ fontSize: 14, color: '#555', marginTop: 4 }}>
-              <div><strong>Rim:</strong> {selectedWheels.rim}</div>
-              <div><strong>Tyre Width:</strong> {selectedWheels.tyreWidth} mm</div>
-              <div><strong>Recommended Pressure:</strong> {wheelPressure ? `${wheelPressure} psi` : 'N/A'}</div>
-            </div>
           </div>
           <div style={{ marginBottom: 18 }}>
             <label style={{ fontWeight: 500 }}>Handlebars:</label>
@@ -113,6 +108,9 @@ export default function ResultsPage() {
             <li><strong>Frame:</strong> {selectedFrame.name}</li>
             <li><strong>Wheels:</strong> {selectedWheels.name}</li>
             <li><strong>Handlebars:</strong> {selectedHandlebars.name}</li>
+            <li><strong>Rim:</strong> {selectedWheels.rim}</li>
+            <li><strong>Tyre Width:</strong> {selectedWheels.tyreWidth} mm</li>
+            <li><strong>Recommended Pressure:</strong> {wheelPressure ? `${wheelPressure} psi` : 'N/A'}</li>
           </ul>
           <div className={styles.resultsSummary}>
             <div><strong>Bike Size:</strong> {bikeSize}</div>
