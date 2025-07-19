@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
 
   return (
     <div className={styles.wrapper}>
+      <Image src="/bike.png" alt="Bike preview" width={320} height={180} style={{ marginBottom: 24, borderRadius: 12, objectFit: 'contain', background: '#f8f8f8' }} />
       <h1 className={styles.title}>Bike Builder</h1>
       <p className={styles.description}>Build your ideal and optimized bike. Enter your details below to get started.</p>
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -81,7 +83,15 @@ export default function Home() {
       </form>
       {submitted && (
         <div className={styles.result}>
-          <h3>Submitted Values</h3>
+          <h3>Recommended Build</h3>
+          <ul style={{ margin: '1.5rem 0', padding: 0, listStyle: 'none', fontSize: '1.05rem', color: '#333' }}>
+            <li><strong>Frame:</strong> Aero Carbon Frame</li>
+            <li><strong>Wheels:</strong> Lightweight Alloy Wheels</li>
+            <li><strong>Handlebars:</strong> Compact Drop Bars</li>
+            <li><strong>Saddle:</strong> Comfort Gel Saddle</li>
+            <li><strong>Groupset:</strong> Shimano 105</li>
+          </ul>
+          <h4>Summary</h4>
           <p>Bike Size: {submitted.bikeSize}</p>
           <p>Rider Weight: {submitted.riderWeight} kg</p>
           <p>Riding Style: {submitted.comfortAero <= 33 ? "Comfort" : submitted.comfortAero >= 67 ? "Aero" : "Balanced"} ({submitted.comfortAero}/100)</p>
