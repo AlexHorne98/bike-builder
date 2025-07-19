@@ -1,24 +1,26 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./page.module.css";
 
 export default function Home() {
   const [bikeSize, setBikeSize] = useState("");
   const [riderWeight, setRiderWeight] = useState("");
-  const [comfortAero, setComfortAero] = useState(50); // 0 = Comfort, 100 = Aero
+  const [comfortAero, setComfortAero] = useState(50);
   const [budget, setBudget] = useState("");
-  const [submitted, setSubmitted] = useState<{
-    bikeSize: string;
-    riderWeight: string;
-    comfortAero: number;
-    budget: string;
-  } | null>(null);
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted({ bikeSize, riderWeight, comfortAero, budget });
+    const params = new URLSearchParams({
+      bikeSize,
+      riderWeight,
+      comfortAero: String(comfortAero),
+      budget
+    }).toString();
+    router.push(`/results?${params}`);
   };
 
   return (
@@ -81,23 +83,6 @@ export default function Home() {
         </div>
         <button type="submit" className={styles.button}>Submit</button>
       </form>
-      {submitted && (
-        <div className={styles.result}>
-          <h3>Recommended Build</h3>
-          <ul style={{ margin: '1.5rem 0', padding: 0, listStyle: 'none', fontSize: '1.05rem', color: '#333' }}>
-            <li><strong>Frame:</strong> Aero Carbon Frame</li>
-            <li><strong>Wheels:</strong> Lightweight Alloy Wheels</li>
-            <li><strong>Handlebars:</strong> Compact Drop Bars</li>
-            <li><strong>Saddle:</strong> Comfort Gel Saddle</li>
-            <li><strong>Groupset:</strong> Shimano 105</li>
-          </ul>
-          <h4>Summary</h4>
-          <p>Bike Size: {submitted.bikeSize}</p>
-          <p>Rider Weight: {submitted.riderWeight} kg</p>
-          <p>Riding Style: {submitted.comfortAero <= 33 ? "Comfort" : submitted.comfortAero >= 67 ? "Aero" : "Balanced"} ({submitted.comfortAero}/100)</p>
-          <p>Budget: ${submitted.budget}</p>
-        </div>
-      )}
     </div>
   );
 }
