@@ -25,7 +25,6 @@ export default function Home() {
 
   return (
     <div className={styles.wrapper}>
-      <Image src="/bike.png" alt="Bike preview" width={320} height={180} style={{ marginBottom: 24, borderRadius: 12, objectFit: 'contain', background: '#f8f8f8' }} />
       <h1 className={styles.title}>Bike Builder</h1>
       <p className={styles.description}>Build your ideal and optimized bike. Enter your details below to get started.</p>
       <form onSubmit={handleSubmit} className={styles.form}>
