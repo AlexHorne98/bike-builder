@@ -47,6 +47,19 @@ const HANDLEBARS = [
   { name: "Endurance Bars", image: "/bike.png", price: 350, weight: 280 },
 ];
 
+// Helper for front/rear pressure (inspired by SILCA)
+function calcTyrePressure(riderWeight: number, tyreWidth: number) {
+  // Assume 55% rear, 45% front weight distribution for road bikes
+  const rearWeight = riderWeight * 0.55;
+  const frontWeight = riderWeight * 0.45;
+  // Base pressure formula: (weight in kg / tyre width in mm) * factor
+  // Factor is tuned for road tyres, adjust as needed
+  const factor = 1.1;
+  const rearPsi = Math.round((rearWeight / tyreWidth) * factor * 10);
+  const frontPsi = Math.round((frontWeight / tyreWidth) * factor * 10);
+  return { frontPsi, rearPsi };
+}
+
 export default function ResultsPage() {
   const params = useSearchParams();
   const bikeSize = params.get("bikeSize") || "";
@@ -63,9 +76,8 @@ export default function ResultsPage() {
   const totalWeight = selectedFrame.weight + selectedWheels.weight + selectedHandlebars.weight;
 
   const riderWeightNum = Number(riderWeight) || 75;
-  const wheelPressure = selectedWheels.recommendedPressure
-    ? selectedWheels.recommendedPressure(riderWeightNum)
-    : null;
+  const tyreWidth = selectedWheels.tyreWidth || 28;
+  const { frontPsi, rearPsi } = calcTyrePressure(riderWeightNum, tyreWidth);
 
   return (
     <>
@@ -110,8 +122,12 @@ export default function ResultsPage() {
             <li><strong>Handlebars:</strong> {selectedHandlebars.name}</li>
             <li><strong>Rim:</strong> {selectedWheels.rim}</li>
             <li><strong>Tyre Width:</strong> {selectedWheels.tyreWidth} mm</li>
-            <li><strong>Recommended Pressure:</strong> {wheelPressure ? `${wheelPressure} psi` : 'N/A'}</li>
+            <li><strong>Recommended Pressure:</strong> Front {frontPsi} psi / Rear {rearPsi} psi</li>
           </ul>
+          <div style={{ fontSize: 13, color: '#888', marginTop: 8, marginBottom: 8, lineHeight: 1.5 }}>
+            <strong>How is this calculated?</strong><br />
+            Tyre pressures are optimized for your weight and tyre width, using a front/rear split inspired by the <a href="https://silca.cc/pages/pro-tire-pressure-calculator?srsltid=AfmBOopV2OzvY2aWtLo41Jsc_jmWPO_NlRlKNHRUBPdXHH_EynP7DgCk" target="_blank" rel="noopener noreferrer">SILCA Pro Calculator</a>. For best results, always check your rim and tyre manufacturer’s limits.
+          </div>
           <div className={styles.resultsSummary}>
             <div><strong>Bike Size:</strong> {bikeSize}</div>
             <div><strong>Rider Weight:</strong> {riderWeight} kg</div>
