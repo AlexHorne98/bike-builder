@@ -6,11 +6,18 @@ import styles from "./page.module.css";
 export default function Home() {
   const [bikeSize, setBikeSize] = useState("");
   const [riderWeight, setRiderWeight] = useState("");
-  const [submitted, setSubmitted] = useState<{ bikeSize: string; riderWeight: string } | null>(null);
+  const [comfortAero, setComfortAero] = useState(50); // 0 = Comfort, 100 = Aero
+  const [budget, setBudget] = useState("");
+  const [submitted, setSubmitted] = useState<{
+    bikeSize: string;
+    riderWeight: string;
+    comfortAero: number;
+    budget: string;
+  } | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted({ bikeSize, riderWeight });
+    setSubmitted({ bikeSize, riderWeight, comfortAero, budget });
   };
 
   return (
@@ -41,6 +48,35 @@ export default function Home() {
             min={0}
           />
         </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="comfortAero">Riding Style Preference</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: 13, color: '#888' }}>Comfort</span>
+            <input
+              id="comfortAero"
+              type="range"
+              min={0}
+              max={100}
+              value={comfortAero}
+              onChange={e => setComfortAero(Number(e.target.value))}
+              style={{ flex: 1 }}
+            />
+            <span style={{ fontSize: 13, color: '#888' }}>Aero</span>
+          </div>
+        </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="budget">Budget ($)</label>
+          <input
+            id="budget"
+            type="number"
+            value={budget}
+            onChange={e => setBudget(e.target.value)}
+            placeholder="e.g. 2000"
+            required
+            min={0}
+            step={100}
+          />
+        </div>
         <button type="submit" className={styles.button}>Submit</button>
       </form>
       {submitted && (
@@ -48,6 +84,8 @@ export default function Home() {
           <h3>Submitted Values</h3>
           <p>Bike Size: {submitted.bikeSize}</p>
           <p>Rider Weight: {submitted.riderWeight} kg</p>
+          <p>Riding Style: {submitted.comfortAero <= 33 ? "Comfort" : submitted.comfortAero >= 67 ? "Aero" : "Balanced"} ({submitted.comfortAero}/100)</p>
+          <p>Budget: ${submitted.budget}</p>
         </div>
       )}
     </div>
