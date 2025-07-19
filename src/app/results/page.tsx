@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import styles from "../page.module.css";
 
@@ -12,26 +13,33 @@ export default function ResultsPage() {
   const budget = params.get("budget") || "";
 
   return (
-    <div className={styles.resultsLayout}>
-      <div className={styles.resultsImage}>
-        <Image src="/bike.png" alt="Bike preview" width={340} height={200} style={{ borderRadius: 12, objectFit: 'contain', background: '#f8f8f8' }} />
+    <>
+      <div style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: 32 }}>
+        <Link href="/" style={{ color: '#222', textDecoration: 'none', fontWeight: 500, fontSize: 16, border: '1px solid #ececec', borderRadius: 8, padding: '8px 18px', background: '#fafafa', transition: 'background 0.2s', boxShadow: '0 1px 4px rgba(0,0,0,0.02)' }}>
+          ← Back to Start
+        </Link>
       </div>
-      <div className={styles.resultsSidebar}>
-        <h2 style={{ marginBottom: 8 }}>Recommended Build</h2>
-        <ul>
-          <li><strong>Frame:</strong> Aero Carbon Frame</li>
-          <li><strong>Wheels:</strong> Lightweight Alloy Wheels</li>
-          <li><strong>Handlebars:</strong> Compact Drop Bars</li>
-          <li><strong>Saddle:</strong> Comfort Gel Saddle</li>
-          <li><strong>Groupset:</strong> Shimano 105</li>
-        </ul>
-        <div className={styles.resultsSummary}>
-          <div><strong>Bike Size:</strong> {bikeSize}</div>
-          <div><strong>Rider Weight:</strong> {riderWeight} kg</div>
-          <div><strong>Riding Style:</strong> {comfortAero <= 33 ? "Comfort" : comfortAero >= 67 ? "Aero" : "Balanced"} ({comfortAero}/100)</div>
-          <div><strong>Budget:</strong> ${budget}</div>
+      <div className={styles.resultsLayout}>
+        <div className={styles.resultsImage}>
+          <Image src="/bike.png" alt="Bike preview" width={340} height={200} style={{ borderRadius: 12, objectFit: 'contain', background: '#f8f8f8' }} />
+        </div>
+        <div className={styles.resultsSidebar}>
+          <h2 style={{ marginBottom: 8 }}>Recommended Build</h2>
+          <ul>
+            <li><strong>Frame:</strong> Aero Carbon Frame</li>
+            <li><strong>Wheels:</strong> Lightweight Alloy Wheels</li>
+            <li><strong>Handlebars:</strong> Compact Drop Bars</li>
+            <li><strong>Saddle:</strong> Comfort Gel Saddle</li>
+            <li><strong>Groupset:</strong> Shimano 105</li>
+          </ul>
+          <div className={styles.resultsSummary}>
+            <div><strong>Bike Size:</strong> {bikeSize}</div>
+            <div><strong>Rider Weight:</strong> {riderWeight} kg</div>
+            <div><strong>Riding Style:</strong> {comfortAero <= 33 ? "Comfort" : comfortAero >= 67 ? "Aero" : "Balanced"} ({comfortAero}/100)</div>
+            <div><strong>Budget:</strong> ${budget}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 } 
