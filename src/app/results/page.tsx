@@ -47,16 +47,14 @@ const HANDLEBARS = [
   { name: "Endurance Bars", image: "/bike.png", price: 350, weight: 280 },
 ];
 
-// Helper for front/rear pressure (inspired by SILCA)
+// Helper for front/rear pressure (SILCA-inspired, realistic)
 function calcTyrePressure(riderWeight: number, tyreWidth: number) {
-  // Assume 55% rear, 45% front weight distribution for road bikes
-  const rearWeight = riderWeight * 0.55;
-  const frontWeight = riderWeight * 0.45;
-  // Base pressure formula: (weight in kg / tyre width in mm) * factor
-  // Factor is tuned for road tyres, adjust as needed
-  const factor = 1.1;
-  const rearPsi = Math.round((rearWeight / tyreWidth) * factor * 10);
-  const frontPsi = Math.round((frontWeight / tyreWidth) * factor * 10);
+  // Convert mm to inches
+  const tyreWidthIn = tyreWidth * 0.03937;
+  // Front PSI: (riderWeight * 2.2 / tyreWidthIn) * 0.7
+  const frontPsi = Math.round((riderWeight * 2.2 / tyreWidthIn) * 0.7);
+  // Rear PSI: Front PSI * 1.08
+  const rearPsi = Math.round(frontPsi * 1.08);
   return { frontPsi, rearPsi };
 }
 
