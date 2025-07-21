@@ -95,49 +95,84 @@ export default function ResultsPage() {
       </div>
       <div className={styles.resultsLayout}>
         <div className={styles.resultsImage}>
-          <Image src={selectedFrame.image} alt="Bike preview" width={340} height={200} style={{ borderRadius: 12, objectFit: 'contain', background: '#f8f8f8' }} />
+          <Image src={selectedFrame.image} alt="Bike preview" width={300} height={200} style={{ borderRadius: 12, objectFit: 'contain', background: '#f8f8f8' }} />
         </div>
         <div className={styles.resultsSidebar}>
-          <h2 style={{ marginBottom: 8 }}>Configure Your Build</h2>
+          <h2 style={{ marginBottom: 16, color: '#fff', fontSize: '1.5rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Build Configuration</h2>
+          
           <div style={{ marginBottom: 18 }}>
-            <label style={{ fontWeight: 500 }}>Frame:</label>
-            <select value={selectedFrame.name} onChange={e => setSelectedFrame(FRAMES.find(f => f.name === e.target.value) || FRAMES[0])} style={{ width: '100%', marginTop: 6, marginBottom: 12, padding: 8, borderRadius: 6, border: '1px solid #ececec' }}>
+            <label style={{ fontWeight: 500, color: '#fff' }}>Frame:</label>
+            <select value={selectedFrame.name} onChange={e => setSelectedFrame(FRAMES.find(f => f.name === e.target.value) || FRAMES[0])} style={{ width: '100%', marginTop: 6, marginBottom: 12, padding: 8, borderRadius: 6, border: '1px solid #ececec', background: '#2a2a2a', color: '#fff' }}>
               {FRAMES.map(frame => (
                 <option key={frame.name} value={frame.name}>{frame.name} (${frame.price.toLocaleString()})</option>
               ))}
             </select>
           </div>
+          
           <div style={{ marginBottom: 18 }}>
-            <label style={{ fontWeight: 500 }}>Wheels:</label>
-            <select value={selectedWheels.name} onChange={e => setSelectedWheels(WHEELS.find(w => w.name === e.target.value) || WHEELS[0])} style={{ width: '100%', marginTop: 6, marginBottom: 12, padding: 8, borderRadius: 6, border: '1px solid #ececec' }}>
+            <label style={{ fontWeight: 500, color: '#fff' }}>Wheels:</label>
+            <select value={selectedWheels.name} onChange={e => setSelectedWheels(WHEELS.find(w => w.name === e.target.value) || WHEELS[0])} style={{ width: '100%', marginTop: 6, marginBottom: 12, padding: 8, borderRadius: 6, border: '1px solid #ececec', background: '#2a2a2a', color: '#fff' }}>
               {WHEELS.map(wheel => (
                 <option key={wheel.name} value={wheel.name}>{wheel.name} (${wheel.price})</option>
               ))}
             </select>
           </div>
+          
           <div style={{ marginBottom: 18 }}>
-            <label style={{ fontWeight: 500 }}>Handlebars:</label>
-            <select value={selectedHandlebars.name} onChange={e => setSelectedHandlebars(HANDLEBARS.find(h => h.name === e.target.value) || HANDLEBARS[0])} style={{ width: '100%', marginTop: 6, marginBottom: 12, padding: 8, borderRadius: 6, border: '1px solid #ececec' }}>
+            <label style={{ fontWeight: 500, color: '#fff' }}>Handlebars:</label>
+            <select value={selectedHandlebars.name} onChange={e => setSelectedHandlebars(HANDLEBARS.find(h => h.name === e.target.value) || HANDLEBARS[0])} style={{ width: '100%', marginTop: 6, marginBottom: 12, padding: 8, borderRadius: 6, border: '1px solid #ececec', background: '#2a2a2a', color: '#fff' }}>
               {HANDLEBARS.map(bar => (
                 <option key={bar.name} value={bar.name}>{bar.name} (${bar.price})</option>
               ))}
             </select>
           </div>
-          <ul>
-            <li><strong>Frame:</strong> {selectedFrame.name}</li>
-            <li><strong>Type:</strong> {selectedFrame.type}</li>
-            <li><strong>CDA (Bike Only):</strong> {selectedFrame.cda}</li>
-            <li><strong>Watts at 40kph:</strong> {selectedFrame.watts40kph}W</li>
-            <li><strong>Wheels:</strong> {selectedWheels.name}</li>
-            <li><strong>Handlebars:</strong> {selectedHandlebars.name}</li>
-            <li><strong>Rim:</strong> {selectedWheels.rim}</li>
-            <li><strong>Tyre Width:</strong> {selectedWheels.tyreWidth} mm</li>
-            <li><strong>Recommended Pressure:</strong> Front {frontPsi} psi / Rear {rearPsi} psi</li>
-          </ul>
-          <div style={{ fontSize: 13, color: '#888', marginTop: 8, marginBottom: 8, lineHeight: 1.5 }}>
-            <strong>How is this calculated?</strong><br />
-            Tyre pressures are optimized for your weight and tyre width, using a front/rear split inspired by the <a href="https://silca.cc/pages/pro-tire-pressure-calculator?srsltid=AfmBOopV2OzvY2aWtLo41Jsc_jmWPO_NlRlKNHRUBPdXHH_EynP7DgCk" target="_blank" rel="noopener noreferrer">SILCA Pro Calculator</a>. For best results, always check your rim and tyre manufacturer’s limits.
+          
+          <div className={styles.statsCard}>
+            <div className={styles.frameStats}>
+              <div className={styles.statBox}>
+                <div className={styles.value}>{selectedFrame.cda}</div>
+                <div className={styles.label}>CDA</div>
+              </div>
+              <div className={styles.statBox}>
+                <div className={styles.value}>{selectedFrame.watts40kph}W</div>
+                <div className={styles.label}>40 KPH</div>
+              </div>
+            </div>
+            
+            <div className={styles.performanceMetric}>
+              <span className={styles.metricLabel}>Frame Type</span>
+              <span className={styles.metricValue + ' ' + styles.info}>{selectedFrame.type}</span>
+            </div>
+            <div className={styles.performanceMetric}>
+              <span className={styles.metricLabel}>Weight</span>
+              <span className={styles.metricValue}>{selectedFrame.weight}g</span>
+            </div>
+            <div className={styles.performanceMetric}>
+              <span className={styles.metricLabel}>Price</span>
+              <span className={styles.metricValue + ' ' + styles.highlight}>${selectedFrame.price.toLocaleString()}</span>
+            </div>
           </div>
+          
+          <div className={styles.componentList}>
+            <h3>Component Specs</h3>
+            <div className={styles.componentItem}>
+              <span className={styles.componentName}>Wheels</span>
+              <span className={styles.componentSpec}>{selectedWheels.rim}</span>
+            </div>
+            <div className={styles.componentItem}>
+              <span className={styles.componentName}>Tyre Width</span>
+              <span className={styles.componentSpec}>{selectedWheels.tyreWidth}mm</span>
+            </div>
+            <div className={styles.componentItem}>
+              <span className={styles.componentName}>Pressure</span>
+              <span className={styles.componentSpec}>{frontPsi}/{rearPsi} psi</span>
+            </div>
+            <div className={styles.componentItem}>
+              <span className={styles.componentName}>Handlebars</span>
+              <span className={styles.componentSpec}>{selectedHandlebars.name}</span>
+            </div>
+          </div>
+          
           <div className={styles.resultsSummary}>
             <div><strong>Bike Size:</strong> {bikeSize}</div>
             <div><strong>Rider Weight:</strong> {riderWeight} kg</div>
@@ -145,6 +180,11 @@ export default function ResultsPage() {
             <div><strong>Budget:</strong> ${budget}</div>
             <div style={{ marginTop: 10 }}><strong>Total Price:</strong> ${totalPrice}</div>
             <div><strong>Total Weight:</strong> {totalWeight} g</div>
+          </div>
+          
+          <div style={{ fontSize: 13, color: '#888', marginTop: 8, marginBottom: 8, lineHeight: 1.5 }}>
+            <strong>How is this calculated?</strong><br />
+            Tyre pressures are optimized for your weight and tyre width, using a front/rear split inspired by the <a href="https://silca.cc/pages/pro-tire-pressure-calculator?srsltid=AfmBOopV2OzvY2aWtLo41Jsc_jmWPO_NlRlKNHRUBPdXHH_EynP7DgCk" target="_blank" rel="noopener noreferrer" style={{ color: '#00ccff' }}>SILCA Pro Calculator</a>. For best results, always check your rim and tyre manufacturer's limits.
           </div>
         </div>
       </div>
