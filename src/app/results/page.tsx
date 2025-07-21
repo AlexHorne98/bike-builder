@@ -6,11 +6,20 @@ import { useSearchParams } from "next/navigation";
 import styles from "../page.module.css";
 import { useState } from "react";
 
-// Dummy data for components
+// Real wind tunnel test data (bike only CDA and bike+rider watts at 40kph)
 const FRAMES = [
-  { name: "Aero Carbon Frame", image: "/bike.png", price: 2500, weight: 900 },
-  { name: "Endurance Carbon Frame", image: "/bike.png", price: 2200, weight: 950 },
-  { name: "Lightweight Alloy Frame", image: "/bike.png", price: 1200, weight: 1200 },
+  { name: "Factor Ostro VAM", image: "/bike.png", price: 8500, weight: 850, cda: 0.0882, watts40kph: 279, type: "Aero" },
+  { name: "Scott Foil RC Pro", image: "/bike.png", price: 7500, weight: 870, cda: 0.0897, watts40kph: 283, type: "Aero" },
+  { name: "Cervelo S5", image: "/bike.png", price: 8000, weight: 890, cda: 0.0900, watts40kph: 280, type: "Aero" },
+  { name: "Canyon Aeroad CFR", image: "/bike.png", price: 6500, weight: 880, cda: 0.0904, watts40kph: 281, type: "Aero" },
+  { name: "Cannondale Supersix Evo 4", image: "/bike.png", price: 7000, weight: 900, cda: 0.0905, watts40kph: 283, type: "Aero" },
+  { name: "Pinarello Dogma F", image: "/bike.png", price: 12000, weight: 920, cda: 0.0915, watts40kph: 283, type: "Aero" },
+  { name: "Specialized S-Works Tarmac SL8", image: "/bike.png", price: 8500, weight: 850, cda: 0.0917, watts40kph: 279, type: "Lightweight" },
+  { name: "Van Rysel RCR Pro", image: "/bike.png", price: 3500, weight: 950, cda: 0.0936, watts40kph: 282, type: "Value" },
+  { name: "Trek Madone SLR 7 Gen 8", image: "/bike.png", price: 9000, weight: 930, cda: 0.0959, watts40kph: 279, type: "Aero" },
+  { name: "Giant Propel Advance SL 0", image: "/bike.png", price: 7500, weight: 940, cda: 0.0959, watts40kph: 282, type: "Aero" },
+  { name: "Look Blade 795 RS", image: "/bike.png", price: 8000, weight: 960, cda: 0.1032, watts40kph: 286, type: "Aero" },
+  { name: "Trek Emonda ALR 2015", image: "/bike.png", price: 1200, weight: 1200, cda: 0.1370, watts40kph: 304, type: "Aluminum" },
 ];
 const WHEELS = [
   {
@@ -94,7 +103,7 @@ export default function ResultsPage() {
             <label style={{ fontWeight: 500 }}>Frame:</label>
             <select value={selectedFrame.name} onChange={e => setSelectedFrame(FRAMES.find(f => f.name === e.target.value) || FRAMES[0])} style={{ width: '100%', marginTop: 6, marginBottom: 12, padding: 8, borderRadius: 6, border: '1px solid #ececec' }}>
               {FRAMES.map(frame => (
-                <option key={frame.name} value={frame.name}>{frame.name} (${frame.price})</option>
+                <option key={frame.name} value={frame.name}>{frame.name} (${frame.price.toLocaleString()})</option>
               ))}
             </select>
           </div>
@@ -116,6 +125,9 @@ export default function ResultsPage() {
           </div>
           <ul>
             <li><strong>Frame:</strong> {selectedFrame.name}</li>
+            <li><strong>Type:</strong> {selectedFrame.type}</li>
+            <li><strong>CDA (Bike Only):</strong> {selectedFrame.cda}</li>
+            <li><strong>Watts at 40kph:</strong> {selectedFrame.watts40kph}W</li>
             <li><strong>Wheels:</strong> {selectedWheels.name}</li>
             <li><strong>Handlebars:</strong> {selectedHandlebars.name}</li>
             <li><strong>Rim:</strong> {selectedWheels.rim}</li>
